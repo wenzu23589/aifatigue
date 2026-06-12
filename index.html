@@ -406,11 +406,37 @@ var survey = new Survey.Model(surveyJSON);
 survey.applyTheme(themeJSON);
 
 survey.onComplete.add(function(sender) {
+  var raw = sender.data;
+  var payload = {};
+
+  sender.getAllQuestions().forEach(function(q) {
+    var t = q.getType();
+    if (t === 'html') return;
+
+    if (t === 'radiogroup' || t === 'dropdown') {
+      payload[q.name] = q.displayValue !== undefined ? q.displayValue : (raw[q.name] || '');
+    } else if (t === 'checkbox') {
+      var dv = q.displayValue;
+      if (Array.isArray(dv)) payload[q.name] = dv.join('; ');
+      else payload[q.name] = dv || raw[q.name] || '';
+    } else if (t === 'matrix') {
+      var md = raw[q.name] || {};
+      var clean = {};
+      Object.keys(md).forEach(function(r) {
+        var v = md[r];
+        clean[r] = v ? (parseInt(v.replace('Column ', '')) || v) : '';
+      });
+      payload[q.name] = clean;
+    } else {
+      payload[q.name] = raw[q.name] !== undefined ? raw[q.name] : '';
+    }
+  });
+
   fetch(GOOGLE_SCRIPT_URL, {
     method: "POST",
     mode: "no-cors",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(sender.data)
+    body: JSON.stringify(payload)
   }).catch(function(err) {
     console.error("Submission error:", err);
   });
