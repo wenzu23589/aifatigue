@@ -9,6 +9,90 @@
   <script src="https://unpkg.com/survey-js-ui@1.12.28/survey-js-ui.min.js"></script>
   <style>
     body { margin: 0; padding: 0; background: #f3f3f3; }
+
+    /* Responsive matrix layout: keep all 7 Likert columns visible */
+    #surveyElement .sd-matrix,
+    #surveyElement .sv-matrix {
+      max-width: 100%;
+      overflow-x: visible !important;
+    }
+
+    #surveyElement .sd-matrix table,
+    #surveyElement .sv-matrix table {
+      width: 100% !important;
+      min-width: 0 !important;
+      table-layout: fixed !important;
+    }
+
+    /* First column = statement text. It shrinks with the window, but remains readable. */
+    #surveyElement .sd-matrix table th:first-child,
+    #surveyElement .sd-matrix table td:first-child,
+    #surveyElement .sv-matrix table th:first-child,
+    #surveyElement .sv-matrix table td:first-child {
+      width: clamp(150px, 24vw, 300px) !important;
+      max-width: clamp(150px, 24vw, 300px) !important;
+      white-space: normal !important;
+      overflow-wrap: break-word !important;
+      word-break: normal !important;
+    }
+
+    /* The 7 radio-button columns share the remaining width equally. */
+    #surveyElement .sd-matrix table th:not(:first-child),
+    #surveyElement .sd-matrix table td:not(:first-child),
+    #surveyElement .sv-matrix table th:not(:first-child),
+    #surveyElement .sv-matrix table td:not(:first-child) {
+      width: calc((100% - clamp(150px, 24vw, 300px)) / 7) !important;
+      min-width: 0 !important;
+      max-width: none !important;
+      padding-left: 2px !important;
+      padding-right: 2px !important;
+      text-align: center !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Make Likert labels wrap neatly instead of forcing horizontal scroll. */
+    #surveyElement .sd-matrix table thead th,
+    #surveyElement .sv-matrix table thead th {
+      white-space: normal !important;
+      overflow-wrap: break-word !important;
+      line-height: 1.15 !important;
+      font-size: clamp(10px, 1.05vw, 13px) !important;
+    }
+
+    /* Reduce extra matrix spacing so the full 1–7 scale fits better. */
+    #surveyElement .sd-matrix table td,
+    #surveyElement .sd-matrix table th,
+    #surveyElement .sv-matrix table td,
+    #surveyElement .sv-matrix table th {
+      box-sizing: border-box !important;
+    }
+
+    @media (max-width: 700px) {
+      #surveyElement .sd-matrix table th:first-child,
+      #surveyElement .sd-matrix table td:first-child,
+      #surveyElement .sv-matrix table th:first-child,
+      #surveyElement .sv-matrix table td:first-child {
+        width: 115px !important;
+        max-width: 115px !important;
+        font-size: 13px !important;
+      }
+
+      #surveyElement .sd-matrix table th:not(:first-child),
+      #surveyElement .sd-matrix table td:not(:first-child),
+      #surveyElement .sv-matrix table th:not(:first-child),
+      #surveyElement .sv-matrix table td:not(:first-child) {
+        width: calc((100% - 115px) / 7) !important;
+        padding-left: 1px !important;
+        padding-right: 1px !important;
+      }
+
+      #surveyElement .sd-matrix table thead th,
+      #surveyElement .sv-matrix table thead th {
+        font-size: 9px !important;
+        line-height: 1.05 !important;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -488,6 +572,131 @@ survey.onComplete.add(function(sender) {
 });
 
 survey.render(document.getElementById("surveyElement"));
+
+// Sticky matrix column headers (fixed version)
+// This replaces the previous overlay that created a large blank green band.
+(function setupStickyMatrixHeaders() {
+  if (window.__aiFatigueStickyMatrixHeaders) return;
+  window.__aiFatigueStickyMatrixHeaders = true;
+
+  var COL_LABELS = [
+    '[1] Strongly Disagree',
+    '[2] Disagree',
+    '[3] Somewhat Disagree',
+    '[4] Neither Agree nor Disagree',
+    '[5] Somewhat Agree',
+    '[6] Agree',
+    '[7] Strongly Agree'
+  ];
+
+  var overlays = [];
+  var HEADER_HEIGHT = 58;
+
+  function removeOldOverlays() {
+    overlays.forEach(function (o) {
+      if (o.bar && o.bar.parentNode) o.bar.parentNode.removeChild(o.bar);
+      o.labels.forEach(function (lbl) {
+        if (lbl && lbl.parentNode) lbl.parentNode.removeChild(lbl);
+      });
+    });
+    overlays = [];
+  }
+
+  function makeFixedDiv() {
+    var div = document.createElement('div');
+    div.className = 'ai-fatigue-sticky-matrix-header';
+    div.style.cssText = [
+      'position:fixed',
+      'top:0',
+      'height:' + HEADER_HEIGHT + 'px',
+      'box-sizing:border-box',
+      'visibility:hidden',
+      'pointer-events:none',
+      'z-index:2147483000'
+    ].join(';');
+    return div;
+  }
+
+  function buildOverlays() {
+    removeOldOverlays();
+
+    document.querySelectorAll('.sd-matrix table, .sv-matrix table').forEach(function (table) {
+      var thead = table.querySelector('thead');
+      if (!thead) return;
+
+      var allThs = Array.from(thead.querySelectorAll('th'));
+      var colThs = allThs.filter(function (th) {
+        return (th.innerText || th.textContent || '').trim() !== '';
+      });
+      if (colThs.length === 0) return;
+
+      var bar = makeFixedDiv();
+      bar.style.background = 'rgba(25, 179, 148, 1)';
+      bar.style.boxShadow = '0 2px 6px rgba(0,0,0,0.15)';
+      document.body.appendChild(bar);
+
+      var labels = colThs.map(function (th, i) {
+        var lbl = makeFixedDiv();
+        lbl.textContent = COL_LABELS[i] || (th.innerText || th.textContent || '').trim();
+        lbl.style.cssText += [
+          'display:flex',
+          'align-items:center',
+          'justify-content:center',
+          'text-align:center',
+          'padding:4px 6px',
+          'background:rgba(25, 179, 148, 1)',
+          'color:#ffffff',
+          'font-family:Open Sans, Arial, sans-serif',
+          'font-size:12px',
+          'font-weight:600',
+          'line-height:1.15',
+          'border-left:1px solid rgba(255,255,255,0.25)',
+          'border-right:1px solid rgba(255,255,255,0.25)',
+          'overflow:hidden',
+          'z-index:2147483001'
+        ].join(';');
+        document.body.appendChild(lbl);
+        return lbl;
+      });
+
+      overlays.push({ table: table, thead: thead, colThs: colThs, bar: bar, labels: labels });
+    });
+
+    updateOverlays();
+  }
+
+  function updateOverlays() {
+    overlays.forEach(function (o) {
+      var tableRect = o.table.getBoundingClientRect();
+      var theadRect = o.thead.getBoundingClientRect();
+      var show = theadRect.bottom < 0 && tableRect.bottom > HEADER_HEIGHT && tableRect.top < 0;
+
+      o.bar.style.visibility = show ? 'visible' : 'hidden';
+      o.labels.forEach(function (lbl) { lbl.style.visibility = show ? 'visible' : 'hidden'; });
+
+      if (!show) return;
+
+      o.bar.style.left = Math.max(tableRect.left, 0) + 'px';
+      o.bar.style.width = Math.min(tableRect.width, window.innerWidth - Math.max(tableRect.left, 0)) + 'px';
+
+      o.colThs.forEach(function (th, i) {
+        var r = th.getBoundingClientRect();
+        var lbl = o.labels[i];
+        lbl.style.left = Math.max(r.left, 0) + 'px';
+        lbl.style.width = Math.max(r.width, 1) + 'px';
+      });
+    });
+  }
+
+  survey.onAfterRenderPage.add(function () {
+    setTimeout(buildOverlays, 300);
+  });
+
+  window.addEventListener('scroll', updateOverlays, { passive: true });
+  window.addEventListener('resize', function () {
+    setTimeout(buildOverlays, 150);
+  });
+})();
 </script>
 </body>
 </html>
