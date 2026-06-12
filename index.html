@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investigating AI Fatigue in Higher Education</title>
+  <link rel="stylesheet" href="https://unpkg.com/survey-core@1.12.28/defaultV2.min.css" />
+  <script src="https://unpkg.com/survey-core@1.12.28/survey.core.min.js"></script>
+  <script src="https://unpkg.com/survey-js-ui@1.12.28/survey-js-ui.min.js"></script>
+  <style>
+    body { margin: 0; padding: 0; background: #f3f3f3; }
+  </style>
+</head>
+<body>
+<div id="surveyElement"></div>
+
+<script>
+var themeJSON = {
+  "themeName": "default",
+  "colorPalette": "light",
+  "isPanelless": false,
+  "backgroundImage": "",
+  "backgroundImageFit": "cover",
+  "backgroundImageAttachment": "scroll",
+  "backgroundOpacity": 1,
+  "cssVariables": {
+    "--sjs-font-family": "Open Sans",
+    "--sjs-font-size": "16px",
+    "--sjs-corner-radius": "4px",
+    "--sjs-base-unit": "8px",
+    "--sjs-shadow-small": "0px 1px 2px 0px rgba(0, 0, 0, 0.15)",
+    "--sjs-shadow-inner": "inset 0px 1px 2px 0px rgba(0, 0, 0, 0.15)",
+    "--sjs-border-default": "rgba(0, 0, 0, 0.16)",
+    "--sjs-border-light": "rgba(0, 0, 0, 0.09)",
+    "--sjs-general-backcolor": "rgba(255, 255, 255, 1)",
+    "--sjs-general-backcolor-dark": "rgba(248, 248, 248, 1)",
+    "--sjs-general-backcolor-dim-light": "rgba(249, 249, 249, 1)",
+    "--sjs-general-backcolor-dim-dark": "rgba(243, 243, 243, 1)",
+    "--sjs-general-forecolor": "rgba(0, 0, 0, 0.91)",
+    "--sjs-general-forecolor-light": "rgba(0, 0, 0, 0.45)",
+    "--sjs-general-dim-forecolor": "rgba(0, 0, 0, 0.91)",
+    "--sjs-general-dim-forecolor-light": "rgba(0, 0, 0, 0.45)",
+    "--sjs-secondary-backcolor": "rgba(255, 152, 20, 1)",
+    "--sjs-secondary-backcolor-light": "rgba(255, 152, 20, 0.1)",
+    "--sjs-secondary-backcolor-semi-light": "rgba(255, 152, 20, 0.25)",
+    "--sjs-secondary-forecolor": "rgba(255, 255, 255, 1)",
+    "--sjs-secondary-forecolor-light": "rgba(255, 255, 255, 0.25)",
+    "--sjs-shadow-small-reset": "0px 0px 0px 0px rgba(0, 0, 0, 0.15)",
+    "--sjs-shadow-medium": "0px 2px 6px 0px rgba(0, 0, 0, 0.1)",
+    "--sjs-shadow-large": "0px 8px 16px 0px rgba(0, 0, 0, 0.1)",
+    "--sjs-shadow-inner-reset": "inset 0px 0px 0px 0px rgba(0, 0, 0, 0.15)",
+    "--sjs-border-inside": "rgba(0, 0, 0, 0.16)",
+    "--sjs-special-red-forecolor": "rgba(255, 255, 255, 1)",
+    "--sjs-special-green": "rgba(25, 179, 148, 1)",
+    "--sjs-special-green-light": "rgba(25, 179, 148, 0.1)",
+    "--sjs-special-green-forecolor": "rgba(255, 255, 255, 1)",
+    "--sjs-special-blue": "rgba(67, 127, 217, 1)",
+    "--sjs-special-blue-light": "rgba(67, 127, 217, 0.1)",
+    "--sjs-special-blue-forecolor": "rgba(255, 255, 255, 1)",
+    "--sjs-special-yellow": "rgba(255, 152, 20, 1)",
+    "--sjs-special-yellow-light": "rgba(255, 152, 20, 0.1)",
+    "--sjs-special-yellow-forecolor": "rgba(255, 255, 255, 1)",
+    "--sjs-general-backcolor-dim": "rgba(243, 243, 243, 1)",
+    "--sjs-primary-backcolor": "rgba(25, 179, 148, 1)",
+    "--sjs-primary-backcolor-dark": "rgba(20, 164, 139, 1)",
+    "--sjs-primary-backcolor-light": "rgba(25, 179, 148, 0.1)",
+    "--sjs-primary-forecolor": "rgba(255, 255, 255, 1)",
+    "--sjs-primary-forecolor-light": "rgba(255, 255, 255, 0.25)",
+    "--sjs-special-red": "rgba(229, 10, 62, 1)",
+    "--sjs-special-red-light": "rgba(229, 10, 62, 0.1)"
+  },
+  "header": {
+    "height": 0,
+    "mobileHeight": 0,
+    "inheritWidthFrom": "survey",
+    "textAreaWidth": 0,
+    "backgroundImageFit": "cover",
+    "backgroundImageOpacity": 100,
+    "overlapEnabled": false,
+    "logoPositionX": "left",
+    "logoPositionY": "top",
+    "titlePositionX": "left",
+    "titlePositionY": "bottom",
+    "descriptionPositionX": "left",
+    "descriptionPositionY": "bottom"
+  },
+  "headerView": "advanced"
+};
+
+var surveyJSON = {
+  "title": "Investigating AI Fatigue in Higher Education",
+  "completedHtml": "Thank you for taking the time to complete the questionnaire.",
+  "pages": [
+    {
+      "name": "page0",
+      "title": "Information ",
+      "elements": [
+        {
+          "type": "html",
+          "name": "question19",
+          "html": "<style>\n  .info-letter {\n    max-width: 760px;\n    margin: 0 auto;\n    padding: 3rem 3.5rem;\n    background: #ffffff;\n    border: 1px solid #ddd6c8;\n    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.08);\n    color: #1c1a17;\n    font-family: Georgia, \"Times New Roman\", serif;\n    font-size: 17px;\n    line-height: 1.75;\n  }\n\n  .info-letter .letterhead {\n    display: flex;\n    justify-content: space-between;\n    gap: 2rem;\n    margin-bottom: 2rem;\n    padding-bottom: 1.25rem;\n    border-bottom: 1px solid #b5a48a;\n  }\n\n  .info-letter .letterhead-left h1 {\n    margin: 0;\n    color: #3b4a6b;\n    font-size: 1.1rem;\n    letter-spacing: 0.12em;\n    text-transform: uppercase;\n  }\n\n  .info-letter .letterhead-left p,\n  .info-letter .letterhead-right p {\n    margin: 0.15rem 0;\n    color: #6b6355;\n    font-size: 0.85rem;\n  }\n\n  .info-letter .letterhead-right {\n    text-align: right;\n  }\n\n  .info-letter .subject-block {\n    margin-bottom: 1.75rem;\n    padding: 0.8rem 1rem;\n    background: #f4f0ea;\n    border-left: 4px solid #3b4a6b;\n    font-size: 0.95rem;\n  }\n\n  .info-letter .subject-block strong {\n    color: #3b4a6b;\n  }\n\n  .info-letter .salutation {\n    margin-bottom: 1.2rem;\n    font-style: italic;\n  }\n\n  .info-letter p {\n    margin-bottom: 1.2rem;\n    text-align: justify;\n  }\n\n  .info-letter a {\n    color: #3b4a6b;\n    text-decoration: none;\n    border-bottom: 1px dotted #3b4a6b;\n  }\n\n  .info-letter a:hover {\n    color: #7a2e2e;\n    border-bottom-color: #7a2e2e;\n  }\n\n  .info-letter .notice-box {\n    margin: 1.5rem 0;\n    padding: 1rem 1.25rem;\n    background: #faf7f3;\n    border: 1px solid #b5a48a;\n    color: #6b6355;\n    font-size: 0.95rem;\n  }\n\n  .info-letter .notice-box::before {\n    content: \"Data Protection Notice\";\n    display: block;\n    margin-bottom: 0.5rem;\n    color: #7a2e2e;\n    font-size: 0.78rem;\n    font-weight: bold;\n    letter-spacing: 0.1em;\n    text-transform: uppercase;\n  }\n\n  .info-letter .consent-para {\n    margin: 1.5rem 0;\n    padding: 0.9rem 0;\n    border-top: 1px solid #b5a48a;\n    border-bottom: 1px solid #b5a48a;\n    color: #6b6355;\n    font-style: italic;\n  }\n\n  .info-letter .closing {\n    margin-top: 2rem;\n  }\n\n  .info-letter .signature-block {\n    margin-top: 2rem;\n  }\n\n  .info-letter .signature-name {\n    font-size: 1.15rem;\n    font-weight: bold;\n  }\n\n  .info-letter .signature-title,\n  .info-letter .signature-contact {\n    margin-top: 0.25rem;\n    color: #6b6355;\n    font-size: 0.9rem;\n  }\n\n  .info-letter .footer-rule {\n    margin-top: 2.5rem;\n    padding-top: 0.8rem;\n    border-top: 1px solid #b5a48a;\n    color: #6b6355;\n    font-size: 0.75rem;\n    text-align: center;\n    letter-spacing: 0.05em;\n  }\n\n  @media (max-width: 700px) {\n    .info-letter {\n      padding: 2rem 1.5rem;\n      font-size: 16px;\n    }\n\n    .info-letter .letterhead {\n      flex-direction: column;\n    }\n\n    .info-letter .letterhead-right {\n      text-align: left;\n    }\n  }\n</style>\n\n<div class=\"info-letter\">\n  <div class=\"letterhead\">\n    <div class=\"letterhead-left\">\n      <h1>University of Malta</h1>\n      <p>Information and Consent Letter</p>\n    </div>\n\n    <div class=\"letterhead-right\">\n      <p>Dr. Ing. Lawrence Farrugia Caruana</p>\n      <p>Senior Lecturer, Faculty of Education</p>\n      <p>University of Malta</p>\n      <p>\n        <a href=\"mailto:lawrence.farrugia@um.edu.mt\">\n          lawrence.farrugia@um.edu.mt\n        </a>\n      </p>\n    </div>\n  </div>\n\n  <div class=\"subject-block\">\n    <strong>Re:</strong> Invitation to Participate in a Research Study on\n    <em>AI Fatigue</em> among Students and Academic Staff\n  </div>\n\n  <p class=\"salutation\">Dear Sir/Madam,</p>\n\n  <div class=\"letter-body\">\n    <p>\n      My name is <strong>Dr. Ing. Lawrence Farrugia Caruana</strong> and I am presently conducting\n      research concerning the experience of <em>AI fatigue</em> among students and academic staff at\n      the University of Malta. AI fatigue refers to the cognitive, emotional, behavioural, and physical\n      exhaustion that can arise from sustained interaction with and exposure to artificial intelligence\n      (AI) technologies. The aim of this study is to investigate the extent to which students and\n      academics experience AI fatigue, and to explore whether there are meaningful differences between\n      these two groups in how AI fatigue manifests.\n    </p>\n\n    <p>\n      Participation in this study is entirely voluntary; in other words, you are free to accept or refuse\n      to participate without giving a reason. You are also free to withdraw from the study at any time\n      without needing to provide any explanation and without any negative repercussions for you.\n    </p>\n    <p>\n      All data will be collected via a secure online platform and stored in anonymised form on a password-protected device accessible only to the researcher. Raw data will be retained until June 2027, after which it will be securely wiped using dedicated deletion software from all devices and the online platform. No personally identifiable information such as IP addresses, e-mail addresses, timestamps or other metadata is collected and stored at any point. Anonymised data may be used in publications or future research.\n    </p>\n\n    <p>\n      If you choose to participate, please note that while there are no direct, immediate benefits to you\n      personally, your responses will contribute to an important and growing area of research. The findings\n      of this study may inform University policy regarding the integration of AI tools in teaching,\n      learning, and academic work, with the long-term aim of promoting healthier and more sustainable\n      engagement with AI among both students and staff.\n    </p>\n\n    <div class=\"notice-box\">\n      As a participant, you have the right under the\n      <strong>General Data Protection Regulation (GDPR)</strong>\n      and national legislation to access, rectify and, where applicable, ask for the data concerning you\n      to be erased. All data collected will be stored in an anonymised form on completion of the study\n      and publication of results.\n    </div>\n\n    <p class=\"consent-para\">\n      By completing the questionnaire, you are providing consent to participate in the study. You are also confirming that you are 18 years or over.\n      All data collected is anonymous and will be treated confidentially. Only the researcher endorsing\n      this letter will have access to this data. Please refrain from including names or identifying details in open-ended responses.\n    </p>\n\n    <p>\n      Thank you for your time and consideration. Should you have any questions or concerns,\n      please do not hesitate to contact me by e-mail at\n      <a href=\"mailto:lawrence.farrugia@um.edu.mt\">\n        lawrence.farrugia@um.edu.mt\n      </a>.\n    </p>\n  </div>\n\n  <div class=\"closing\">\n    <p>Sincerely,</p>\n  </div>\n\n  <div class=\"signature-block\">\n    <div class=\"signature-name\">Dr. Ing. Lawrence Farrugia Caruana</div>\n    <div class=\"signature-title\">\n      Senior Lecturer, Faculty of Education, University of Malta\n    </div>\n    <div class=\"signature-contact\">\n      <a href=\"mailto:lawrence.farrugia@um.edu.mt\">\n        lawrence.farrugia@um.edu.mt\n      </a>\n    </div>\n  </div>\n\n  <p class=\"footer-rule\">\n    This letter is issued for research purposes only &mdash; University of Malta. For research ethics queries please feel free to contact the Faculty of Education Research Ethics Committee on research-ethics.educ@um.edu.mt\n  </p>\n</div>\n"
+        },
+        {
+          "type": "boolean",
+          "name": "question20",
+          "title": "I confirm that I am aged 18 or over,  have read the information above, and voluntarily agree to participate in this study. "
+        }
+      ]
+    },
+    {
+      "name": "page1",
+      "title": "Role",
+      "elements": [
+        {
+          "type": "radiogroup",
+          "name": "question1",
+          "title": "Which of the following best describes your primary role at university?",
+          "isRequired": true,
+          "choices": [
+            {"value": "Item 1", "text": "I am a student."},
+            {"value": "Item 2", "text": "I am a member of academic staff."}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "page2",
+      "visible": false,
+      "visibleIf": "{question1} = 'Item 1'",
+      "enableIf": "{question1} = 'Item 1'",
+      "title": "Student",
+      "description": "You have chosen 'I am a student' in the preceding section. ",
+      "elements": [
+        {
+          "type": "text",
+          "name": "question2",
+          "title": "What is your age ?",
+          "isRequired": true,
+          "inputType": "number"
+        },
+        {
+          "type": "radiogroup",
+          "name": "question3",
+          "title": "What is your gender ?",
+          "isRequired": true,
+          "choices": [
+            {"value": "Item 1", "text": "Female"},
+            {"value": "Item 2", "text": "Male"},
+            {"value": "Item 3", "text": "Prefer not to say"}
+          ],
+          "showOtherItem": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "question4",
+          "title": "What type of programme are you following at university ?",
+          "isRequired": true,
+          "choices": [
+            {"value": "Item 2", "text": "Undergraduate Diploma"},
+            {"value": "Item 3", "text": "Undergraduate Certificate"},
+            {"value": "Item 1", "text": "Undergraduate Bachelor Degree"},
+            {"value": "Item 6", "text": "Postgraduate Certificate"},
+            {"value": "Item 4", "text": "Postgraduate Master"},
+            {"value": "Item 5", "text": "Doctoral (PhD or equivalent)"}
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "question5",
+          "title": "How often do you use generative Artificial Intelligence (AI) in your daily life ? ",
+          "isRequired": true,
+          "choices": [
+            {"value": "Item 1", "text": "Never (I do not use AI at all)"},
+            {"value": "Item 2", "text": "Rarely (once or twice a month)"},
+            {"value": "Item 3", "text": "Sometimes (a few times a week)"},
+            {"value": "Item 4", "text": "Often (almost every day)"},
+            {"value": "Item 5", "text": "Very frequently (multiple times daily)"}
+          ]
+        },
+        {
+          "type": "checkbox",
+          "name": "question6",
+          "title": " Which of the following tasks best describes how you use generative AI tools?",
+          "isRequired": true,
+          "choices": [
+            {"value": "Item 1", "text": "Summarising or simplifying complex information."},
+            {"value": "Item 2", "text": "Researching and fact-checking."},
+            {"value": "Item 3", "text": "Understanding feedback received in relation to work that was submitted."},
+            {"value": "Item 4", "text": "Translating content."},
+            {"value": "Item 5", "text": "Brainstorming and generating ideas."},
+            {"value": "Item 6", "text": "Creative tasks (e.g. generating images, preparing presentations)."},
+            {"value": "Item 7", "text": "Coding or data analysis."},
+            {"value": "Item 8", "text": "Personal productivity (e.g. planning, organising tasks)."}
+          ],
+          "showOtherItem": true,
+          "showNoneItem": true,
+          "minSelectedChoices": 1
+        }
+      ]
+    },
+    {
+      "name": "page3",
+      "visible": false,
+      "visibleIf": "{question1} = 'Item 2'",
+      "enableIf": "{question1} = 'Item 2'",
+      "title": "Academic",
+      "description": "You have chosen 'I am a member of academic staff' in the preceding section. ",
+      "elements": [
+        {
+          "type": "text",
+          "name": "question7",
+          "title": "What is your age ?",
+          "isRequired": true,
+          "inputType": "number"
+        },
+        {
+          "type": "radiogroup",
+          "name": "question8",
+          "title": "What is your gender ?",
+          "isRequired": true,
+          "choices": [
+            {"value": "Item 1", "text": "Female"},
+            {"value": "Item 2", "text": "Male"},
+            {"value": "Item 3", "text": "Prefer not say"}
+          ],
+          "showOtherItem": true
+        },
+        {
+          "type": "dropdown",
+          "name": "question9",
+          "title": "What is your academic grade ?",
+          "isRequired": true,
+          "choices": [
+            {"value": "Item 2", "text": "Assistant Lecturer"},
+            {"value": "Item 3", "text": "Lecturer"},
+            {"value": "Item 4", "text": "Senior Lecturer"},
+            {"value": "Item 5", "text": "Associate Professor"},
+            {"value": "Item 6", "text": "Professor"}
+          ]
+        },
+        {
+          "type": "text",
+          "name": "question10",
+          "title": "For how many years have you been a member of academic staff ?",
+          "isRequired": true,
+          "inputType": "number"
+        },
+        {
+          "type": "radiogroup",
+          "name": "question12",
+          "title": "How often do you use generative Artificial Intelligence (AI) in your daily life ? ",
+          "isRequired": true,
+          "choices": [
+            {"value": "Item 1", "text": "Never (I do not use AI at all)"},
+            {"value": "Item 2", "text": "Rarely (once or twice a month)"},
+            {"value": "Item 3", "text": "Sometimes (a few times a week)"},
+            {"value": "Item 4", "text": "Often (almost every day)"},
+            {"value": "Item 5", "text": "Very frequently (multiple times daily)"}
+          ]
+        },
+        {
+          "type": "checkbox",
+          "name": "question11",
+          "title": " Which of the following tasks best describes how you use generative AI tools?",
+          "isRequired": true,
+          "choices": [
+            {"value": "Item 1", "text": "Summarising or simplifying complex information."},
+            {"value": "Item 2", "text": "Researching and fact-checking."},
+            {"value": "Item 3", "text": "Understanding feedback received in relation to work that was submitted."},
+            {"value": "Item 4", "text": "Translating content."},
+            {"value": "Item 5", "text": "Brainstorming and generating ideas."},
+            {"value": "Item 7", "text": "Coding or data analysis."},
+            {"value": "Item 8", "text": "Personal productivity (e.g. planning, organising tasks)."},
+            {"value": "Item 9", "text": "Designing or preparing teaching materials (e.g., lecture slides, lesson plans)"},
+            {"value": "Item 10", "text": "Generating or designing assessments and exam questions."},
+            {"value": "Item 11", "text": "Providing written feedback to students."}
+          ],
+          "showOtherItem": true,
+          "showNoneItem": true,
+          "minSelectedChoices": 1
+        },
+        {
+          "type": "radiogroup",
+          "name": "question13",
+          "title": "Which of the following best describes your area of specialisation?",
+          "choices": [
+            {"value": "Item 4", "text": "Arts and Humanities (e.g., Literature, History, Philosophy, Languages)"},
+            {"value": "Item 5", "text": "Social Sciences (e.g., Psychology, Sociology, Education, Economics)"},
+            {"value": "Item 6", "text": "Business and Management (e.g., Accounting, Marketing, Finance)"},
+            {"value": "Item 7", "text": "Law"},
+            {"value": "Item 8", "text": "Science (e.g., Biology, Chemistry, Physics, Mathematics)"},
+            {"value": "Item 9", "text": "Engineering and Technology (e.g., Computer Science, ICT, Mechanical Engineering)"},
+            {"value": "Item 10", "text": "Health and Medicine (e.g., Nursing, Pharmacy, Medicine)"},
+            {"value": "Item 11", "text": "Architecture and Built Environment"},
+            {"value": "Item 12", "text": "Education"}
+          ],
+          "showOtherItem": true,
+          "showNoneItem": true
+        }
+      ]
+    },
+    {
+      "name": "page4",
+      "title": "AI Literacy and Fatigue",
+      "elements": [
+        {
+          "type": "matrix",
+          "name": "question14",
+          "title": "Please read each statement carefully and indicate how much you agree or disagree with it, based on your own experience and knowledge of artificial intelligence (AI) technology. \nThere are no right or wrong answers. Please answer honestly based on your actual experience and abilities. ",
+          "isRequired": true,
+          "requiredErrorText": "1 answer per row.",
+          "alternateRows": true,
+          "columns": [
+            {"value": "Column 1", "text": "[1] Strongly Disagree"},
+            {"value": "Column 2", "text": "[2] Disagree"},
+            {"value": "Column 3", "text": "[3] Somewhat Disagree"},
+            {"value": "Column 4", "text": "[4] Neither Agree nor Disagree"},
+            {"value": "Column 5", "text": "[5] Somewhat Agree"},
+            {"value": "Column 6", "text": "[6] Agree"},
+            {"value": "Column 7", "text": "[7] Strongly Agree"}
+          ],
+          "rows": [
+            {"value": "Row 1", "text": "I can distinguish between smart devices and non-smart devices."},
+            {"value": "Row 2", "text": "I do not know how AI technology can help me."},
+            {"value": "Row 3", "text": "I can identify the AI technology employed in the applications and products I use."},
+            {"value": "Row 4", "text": "I can skilfully use AI applications or products to help me with my daily work"},
+            {"value": "Row 5", "text": "It is usually hard for me to learn to use a new AI application or product."},
+            {"value": "Row 6", "text": "I can use AI applications or products to improve my work efficiency."},
+            {"value": "Row 7", "text": "I can evaluate the capabilities and limitations of an AI application or product after using it for a while."},
+            {"value": "Row 8", "text": "I can choose a proper solution from various solutions provided by a smart agent."},
+            {"value": "Row 9", "text": "I can choose the most appropriate AI application or product from a variety for a particular task."},
+            {"value": "Row 10", "text": "I always comply with ethical principles when using AI applications or products."},
+            {"value": "Row 11", "text": "I am never alert to privacy and information security issues when using AI applications or products."},
+            {"value": "Row 12", "text": "I am always alert to the abuse of AI technology."}
+          ],
+          "rowOrder": "random",
+          "eachRowRequired": true
+        },
+        {
+          "type": "matrix",
+          "name": "question15",
+          "title": "Please read carefully each statement and rate the extent to which you agree or disagree from a scale of 1 (Strongly Disagree) to 7 (Strongly Agree).",
+          "isRequired": true,
+          "requiredErrorText": "1 answer per row",
+          "alternateRows": true,
+          "columns": [
+            {"value": "Column 1", "text": "[1] Strongly Disagree"},
+            {"value": "Column 2", "text": "[2] Disagree"},
+            {"value": "Column 3", "text": "[3] Somewhat Disagree"},
+            {"value": "Column 4", "text": "[4] Neither Agree nor Disagree"},
+            {"value": "Column 5", "text": "[5] Somewhat Agree"},
+            {"value": "Column 6", "text": "[6] Agree"},
+            {"value": "Column 7", "text": "[7] Strongly Agree"}
+          ],
+          "rows": [
+            {"value": "Row 1", "text": "I find it difficult to process the large amount of AI content I encounter online."},
+            {"value": "Row 2", "text": "I sometimes find AI outputs difficult to interpret."},
+            {"value": "Row 3", "text": "When learning to use new AI tools, I often get lost in the technical details"},
+            {"value": "Row 4", "text": "I find it hard to keep track of the many AI models and tools introduced lately."},
+            {"value": "Row 5", "text": "I sometimes feel a little frustrated when AI does not produce the results I expect."},
+            {"value": "Row 6", "text": "I sometimes feel a little irritated when AI makes mistakes that I need to correct."},
+            {"value": "Row 7", "text": "I sometimes feel a little discouraged when AI takes lots of retries to give me what I need."},
+            {"value": "Row 8", "text": "I avoid using AI even when it could help me."},
+            {"value": "Row 9", "text": "I limit my use of AI when other options exist"},
+            {"value": "Row 10", "text": "I ignore new AI features added to products I use."},
+            {"value": "Row 11", "text": "I prefer doing tasks manually rather than using AI."},
+            {"value": "Row 12", "text": "My eyes can feel strained after extended time with AI."},
+            {"value": "Row 13", "text": "I get physically tired from long AI work sessions."},
+            {"value": "Row 14", "text": "I sometimes notice neck or shoulder tension after extended use of AI tools."},
+            {"value": "Row 15", "text": "My sleep can be worse after long interactions with AI."}
+          ],
+          "rowOrder": "random",
+          "eachRowRequired": true
+        },
+        {
+          "type": "comment",
+          "name": "question16",
+          "title": "Have you ever felt mentally, emotionally, or physically tired as a result of using AI tools? If yes, please describe your experience."
+        },
+        {
+          "type": "comment",
+          "name": "question17",
+          "title": "Has AI fatigue ever affected your work or studies? If yes, please describe how."
+        },
+        {
+          "type": "comment",
+          "name": "question18",
+          "title": "Is there anything else you would like to share about your experience of using AI tools that was not covered in this questionnaire?"
+        }
+      ]
+    }
+  ],
+  "triggers": [
+    {"type": "complete", "expression": "{question20} = false"}
+  ],
+  "cookieName": "1",
+  "showTitle": false,
+  "showProgressBar": true,
+  "progressBarShowPageTitles": true,
+  "firstPageIsStartPage": true
+};
+
+var GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYx7QIvoOcZ464fOrTHiqPYn3MKyyXqgqkJAFZK8MxYrzDbAJTv-LGCBNuMOvxDiXd/exec";
+
+var survey = new Survey.Model(surveyJSON);
+survey.applyTheme(themeJSON);
+
+survey.onComplete.add(function(sender) {
+  fetch(GOOGLE_SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(sender.data)
+  }).catch(function(err) {
+    console.error("Submission error:", err);
+  });
+});
+
+survey.render(document.getElementById("surveyElement"));
+</script>
+</body>
+</html>
