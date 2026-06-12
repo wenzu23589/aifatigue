@@ -407,28 +407,73 @@ survey.applyTheme(themeJSON);
 
 survey.onComplete.add(function(sender) {
   var raw = sender.data;
+
+  // Hardcoded value → label maps (mirrors the survey JSON choices)
+  var MAPS = {
+    question1:  {"Item 1": "Student", "Item 2": "Academic Staff"},
+    question3:  {"Item 1": "Female", "Item 2": "Male", "Item 3": "Prefer not to say"},
+    question4:  {"Item 1": "Undergraduate Bachelor Degree", "Item 2": "Undergraduate Diploma",
+                 "Item 3": "Undergraduate Certificate", "Item 4": "Postgraduate Master",
+                 "Item 5": "Doctoral (PhD or equivalent)", "Item 6": "Postgraduate Certificate"},
+    question5:  {"Item 1": "Never (I do not use AI at all)", "Item 2": "Rarely (once or twice a month)",
+                 "Item 3": "Sometimes (a few times a week)", "Item 4": "Often (almost every day)",
+                 "Item 5": "Very frequently (multiple times daily)"},
+    question6:  {"Item 1": "Summarising or simplifying complex information",
+                 "Item 2": "Researching and fact-checking",
+                 "Item 3": "Understanding feedback received",
+                 "Item 4": "Translating content", "Item 5": "Brainstorming and generating ideas",
+                 "Item 6": "Creative tasks", "Item 7": "Coding or data analysis",
+                 "Item 8": "Personal productivity"},
+    question8:  {"Item 1": "Female", "Item 2": "Male", "Item 3": "Prefer not say"},
+    question9:  {"Item 2": "Assistant Lecturer", "Item 3": "Lecturer", "Item 4": "Senior Lecturer",
+                 "Item 5": "Associate Professor", "Item 6": "Professor"},
+    question11: {"Item 1": "Summarising or simplifying complex information",
+                 "Item 2": "Researching and fact-checking",
+                 "Item 3": "Understanding feedback received",
+                 "Item 4": "Translating content", "Item 5": "Brainstorming and generating ideas",
+                 "Item 7": "Coding or data analysis", "Item 8": "Personal productivity",
+                 "Item 9": "Designing or preparing teaching materials",
+                 "Item 10": "Generating or designing assessments",
+                 "Item 11": "Providing written feedback to students"},
+    question12: {"Item 1": "Never (I do not use AI at all)", "Item 2": "Rarely (once or twice a month)",
+                 "Item 3": "Sometimes (a few times a week)", "Item 4": "Often (almost every day)",
+                 "Item 5": "Very frequently (multiple times daily)"},
+    question13: {"Item 4": "Arts and Humanities", "Item 5": "Social Sciences",
+                 "Item 6": "Business and Management", "Item 7": "Law",
+                 "Item 8": "Science", "Item 9": "Engineering and Technology",
+                 "Item 10": "Health and Medicine", "Item 11": "Architecture and Built Environment",
+                 "Item 12": "Education"}
+  };
+
+  function mapSingle(qname, val) {
+    var m = MAPS[qname];
+    return (m && m[val]) ? m[val] : (val || "");
+  }
+  function mapValue(qname, val) {
+    if (val === undefined || val === null) return "";
+    if (Array.isArray(val)) {
+      return val.map(function(v) { return mapSingle(qname, v); }).join("; ");
+    }
+    return mapSingle(qname, val);
+  }
+  function matrixToNumbers(obj) {
+    if (!obj) return {};
+    var out = {};
+    Object.keys(obj).forEach(function(r) {
+      var v = obj[r];
+      out[r] = v ? (parseInt(v.replace("Column ", ""), 10) || v) : "";
+    });
+    return out;
+  }
+
   var payload = {};
-
-  sender.getAllQuestions().forEach(function(q) {
-    var t = q.getType();
-    if (t === 'html') return;
-
-    if (t === 'radiogroup' || t === 'dropdown') {
-      payload[q.name] = q.displayValue !== undefined ? q.displayValue : (raw[q.name] || '');
-    } else if (t === 'checkbox') {
-      var dv = q.displayValue;
-      if (Array.isArray(dv)) payload[q.name] = dv.join('; ');
-      else payload[q.name] = dv || raw[q.name] || '';
-    } else if (t === 'matrix') {
-      var md = raw[q.name] || {};
-      var clean = {};
-      Object.keys(md).forEach(function(r) {
-        var v = md[r];
-        clean[r] = v ? (parseInt(v.replace('Column ', '')) || v) : '';
-      });
-      payload[q.name] = clean;
+  Object.keys(raw).forEach(function(key) {
+    if (key === "question14" || key === "question15") {
+      payload[key] = matrixToNumbers(raw[key]);
+    } else if (MAPS[key]) {
+      payload[key] = mapValue(key, raw[key]);
     } else {
-      payload[q.name] = raw[q.name] !== undefined ? raw[q.name] : '';
+      payload[key] = raw[key];
     }
   });
 
