@@ -489,6 +489,28 @@ var GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx-klDVmZ0R_CXJ
 var survey = new Survey.Model(surveyJSON);
 survey.applyTheme(themeJSON);
 
+// Enforce one response per row for every matrix question.
+// In this questionnaire, this applies to the last and before-last matrix questions.
+survey.onValidateQuestion.add(function(sender, options) {
+  var q = options.question;
+  if (!q || typeof q.getType !== "function" || q.getType() !== "matrix" || !q.rows) return;
+
+  var value = options.value || {};
+  var missingRows = [];
+
+  q.rows.forEach(function(row) {
+    var rowValue = row.value;
+    if (value[rowValue] === undefined || value[rowValue] === null || value[rowValue] === "") {
+      missingRows.push(row.text || rowValue);
+    }
+  });
+
+  if (missingRows.length > 0) {
+    options.error = "Please answer every statement before continuing.";
+  }
+});
+
+
 survey.onComplete.add(function(sender) {
   var raw = sender.data;
 
